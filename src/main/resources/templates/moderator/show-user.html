@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Show user</title>
+</head>
+<body>
+<div>
+    <div style="margin-bottom: 50px">
+        <h2>Tasks:</h2>
+        <table th:border="1" th:cellspacing="0">
+            <thead>
+            <tr>
+                <th>Task name</th>
+                <th>Deadline</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="task:${inProgressAndWaitingForApproveTasks}">
+                <td><a th:text="${task.getTaskName()}" th:href="@{/moderator/show-task/{taskId}(taskId=${task.getId()})}"></a></td>
+                <td th:text="${task.getDeadline()}"></td>
+                <td th:text="${task.getStatus().toString()}"></td>
+                <td><form id="approveForm" th:action="@{/moderator/approve-task/{taskId}(taskId=${task.getId()})}" th:method="POST" th:object="${user}"></form>
+                    <div th:switch="${task.getStatus().toString()}">
+                        <div th:case="${'in progress'}"></div>
+                        <div th:case="${'waiting for approve'}">
+                            <input type="submit" value="Approve task" form="approveForm"/>
+                            <form id="rejectForm" th:action="@{/moderator/reject-task/{taskId}(taskId=${task.getId()})}"  th:method="POST" th:object="${user}"> </form>
+                                <input type="submit" value="Reject task" form="rejectForm"/>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <form th:action="@{/moderator/create-task}" th:object="${user}" th:method="get">
+            <input type="submit" value="Set new task"/>
+        </form>
+        <br>
+<!--        <a th:href="@{/moderator}">Back to list</a>-->
+        <a href="#" onclick="window.history.back();return false;">Back to list</a>
+    </div>
+
+</div>
+
+<div>
+    <h2>Completed tasks:</h2>
+    <table th:border="1" th:cellspacing="0">
+        <thead>
+        <tr>
+            <th>Task name</th>
+            <th>Deadline</th>
+            <th>Status</th>
+            <th>Completed</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="task:${completedTasks}">
+            <td><a th:text="${task.getTaskName()}" th:href="@{/moderator/show-task/{taskId}(taskId=${task.getId()})}"></a></td>
+            <td th:text="${task.getDeadline()}"></td>
+            <td th:text="${task.getStatus().toString()}"></td>
+            <td th:text="${task.getCompleted()}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+    <div>
+        <h2>Expired tasks:</h2>
+        <table th:border="1" th:cellspacing="0">
+            <thead>
+            <tr>
+                <th>Task name</th>
+                <th>Deadline</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="task:${expiredTasks}">
+                <td><a th:text="${task.getTaskName()}" th:href="@{/moderator/show-task/{taskId}(taskId=${task.getId()})}"></a></td>
+                <td th:text="${task.getDeadline()}"></td>
+                <td th:text="${task.getStatus()}"></td>
+            </tbody>
+        </table>
+ </div>
+</body>
+</html>

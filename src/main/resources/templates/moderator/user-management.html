@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div th:if="${statusMessage}!=null">
+        <a th:text="${statusMessage}"></a>
+    </div>
+        <h2>Users:</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>email</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user:${users}">
+                <td th:text="${user.getId()}"></td>
+                <td><a th:text="${user.getUsername()}" th:href="@{/moderator/user/{id}(id=${user.getId()})}"></a></td>
+                <td th:text="${user.getEmail()}"></td>
+                <td>
+                    <form th:action="@{/moderator/user-management/change-status/{userId}(userId=${user.getId()})}" th:method="POST">
+<!--                        <input type="text" th:name="status"/>-->
+                            <select th:name="status" >
+                                <option th:value="false" th:selected="${user.isLocked()==false}">active</option>
+                                <option th:value="true" th:selected="${user.isLocked()==true}">banned</option>
+                            </select>
+                        <input type="submit" value="Change status">
+                    </form>
+                </td>
+
+            </tr>
+            </tbody>
+        </table>
+</body>
+</html>

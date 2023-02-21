@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <a th:text="'Hello ' + ${user.getUsername()}">VALUE</a> <br>
+    <h2>Tasks:</h2>
+    <div>
+    <table th:border="1" th:cellspacing="0">
+        <thead>
+        <tr>
+            <th>Task name</th>
+            <th>Deadline</th>
+            <th>Completed</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="task:${inProgressAndWaitingForApproveTasks}">
+            <td><a th:text="${task.getTaskName()}" th:href="@{/{userId}/task/{taskId}(userId=${user.getId()},taskId=${task.getId()})}"></a></td>
+            <td th:text="${task.getDeadline()}"></td>
+            <td><div th:if="${task.getStatus().toString()=='in progress'}">
+                    <form th:action="@{/task/{taskId}(taskId=${task.getId()})}" th:method="POST" th:object="${user}">
+                        <input type="submit" value="set task">
+                    </form>
+                </div>
+            </td>
+            <td>
+                <a th:text="${task.getStatus().toString()}">STATUS</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    </div>
+    <div>
+        <h2>Completed tasks:</h2>
+        <table th:border="1" th:cellspacing="0">
+            <thead>
+            <tr>
+                <th>Task name</th>
+                <th>Deadline</th>
+                <th>Completed</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="task:${completedTasks}">
+                <td> <a th:text="${task.getTaskName()}" th:href="@{/{userId}/task/{taskId}(userId=${user.getId()},taskId=${task.getId()})}"></a></td>
+                <td th:text="${task.getDeadline()}"></td>
+                <td th:text="${task.getCompleted()}"></td>
+                <td th:text="${task.getStatus().toString()}"></td>
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <h2>Expired tasks:</h2>
+        <table th:border="1" th:cellspacing="0">
+            <thead>
+            <tr>
+                <th>Task name</th>
+                <th>Deadline</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="task:${expiredTasks}">
+                <td> <a th:text="${task.getTaskName()}" th:href="@{/{userId}/task/{taskId}(userId=${user.getId()},taskId=${task.getId()})}"></a></td>
+                <td th:text="${task.getDeadline()}"></td>
+                <td th:text="${task.getStatus().toString()}"></td>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

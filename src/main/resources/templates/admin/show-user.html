@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Show user</title>
+</head>
+<body>
+<br/>
+<div>
+    <div style="margin-bottom: 50px">
+        <h2>Tasks:</h2>
+        <table th:border="1" th:cellspacing="0">
+            <thead>
+            <tr>
+                <th>Task name</th>
+                <th>Deadline</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="task:${inProgressAndWaitingForApproveTasks}">
+                <td><a th:text="${task.getTaskName()}" th:href="@{/admin/show-task/{taskId}(taskId=${task.getId()})}"></a></td>
+                <td th:text="${task.getDeadline()}"></td>
+                <td th:text="${task.getStatus().toString()}"></td>
+                <td><form th:action="@{/admin/delete-task/{taskId}(taskId=${task.getId()})}" th:method="POST">
+                        <input type="submit" value="Delete task"/>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <form th:action="@{/admin/create-task}" th:object="${user}" th:method="get">
+            <input type="submit" value="Set new task"/>
+        </form>
+        <br>
+
+        <a href="#" onclick="window.history.back();return false;">Back to list</a>
+    </div>
+
+</div>
+
+<div>
+    <h2>Completed tasks:</h2>
+    <table th:border="1" th:cellspacing="0">
+        <thead>
+        <tr>
+            <th>Task name</th>
+            <th>Deadline</th>
+            <th>Status</th>
+            <th>Completed</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="task:${completedTasks}">
+            <td><a th:text="${task.getTaskName()}" th:href="@{/admin/show-task/{taskId}(taskId=${task.getId()})}"></a></td>
+            <td th:text="${task.getDeadline()}"></td>
+            <td th:text="${task.getStatus().toString()}"></td>
+            <td th:text="${task.getCompleted()}"></td>
+            <td><form th:action="@{/admin/delete-task/{taskId}(taskId=${task.getId()})}" th:method="POST">
+                <input type="submit" value="Delete task"/>
+            </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div>
+    <h2>Expired tasks:</h2>
+    <table th:border="1" th:cellspacing="0">
+        <thead>
+        <tr>
+            <th>Task name</th>
+            <th>Deadline</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="task:${expiredTasks}">
+            <td><a th:text="${task.getTaskName()}" th:href="@{/admin/show-task/{taskId}(taskId=${task.getId()})}"></a></td>
+            <td th:text="${task.getDeadline()}"></td>
+            <td th:text="${task.getStatus()}"></td>
+            <td><form th:action="@{/admin/delete-task/{taskId}(taskId=${task.getId()})}" th:method="POST">
+                <input type="submit" value="Delete task"/>
+            </form>
+            </td>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

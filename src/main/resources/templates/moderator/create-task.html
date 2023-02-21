@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create new task</title>
+</head>
+<body>
+<form th:action="@{/moderator/create-task/new}" th:object="${user}" method="post">
+    <div th:object="${task}">
+        <label for="taskName">Enter task name: </label>
+        <input type="text" th:field="*{taskName}" id="taskName">
+        <div style="color:red" th:if="${#fields.hasErrors('taskName')}" th:errors="*{taskName}">Error message</div>
+        <br>
+        <label for="deadline">Enter deadline: </label>
+        <input type="date" th:field="*{deadline}" id="deadline">
+        <div style="color:red" th:if="${#fields.hasErrors('deadline')}" th:errors="*{deadline}">Error message</div>
+        <br>
+        <label for="taskDetails">Enter task details: </label>
+        <div style="color:red" th:if="${#fields.hasErrors('taskDetails')}" th:errors="*{taskDetails}">Error message</div>
+        <br>
+        <textarea th:field="*{taskDetails}" id="taskDetails" style="height:150px;width:250px"></textarea>
+    </div>
+    <br>
+    <input type="submit" value="Create task"/>
+</form>
+</body>
+</html>

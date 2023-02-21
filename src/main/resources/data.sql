@@ -1,0 +1,1 @@
+update tasks set status='EXPIRED' where deadline < current_date and completed is null;
