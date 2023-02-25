@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update user</title>
+</head>
+<body>
+<form th:method="post" th:action="@{/admin/update}" th:object="${user}">
+    <label for="name">Enter name: </label>
+    <input type="text" th:field="*{username}" id="name">
+        <div style="color:red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Error message</div>
+    <br/>
+    <label for="email">Enter email: </label>
+    <input type="text" th:field="*{email}" id="email">
+        <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Error message</div>
+    <br/>
+    <label for="status">Choose status: </label>
+        <select th:field="*{locked}" id="status">
+            <option th:value="false">enabled</option>
+            <option th:value="true">blocked</option>
+        </select>
+
+        <div style="color:red" th:if="${#fields.hasErrors('locked')}" th:errors="*{locked}">Error message</div>
+    <br/>
+
+    <input type="submit" value="Update!"/>
+</form>
+</body>
+</html>

@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,7 +16,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true) //включает @PreAuthorize аннотацию в контроллере для доступа по ролям
+@EnableMethodSecurity //включает @PreAuthorize аннотацию в контроллере для доступа по ролям
 public class SecurityConfig {
 
 
@@ -27,17 +28,17 @@ public class SecurityConfig {
         this.userDetailsService = userDetailsService;
     }
 
-    @Bean
-    protected void configure(AuthenticationManagerBuilder auth) {
-        auth.authenticationProvider(authenticationProvider());
-    }
+//    @Bean
+//    protected void configure(AuthenticationManagerBuilder auth) {
+//        auth.authenticationProvider(authenticationProvider());
+//    }
 
     @Bean
     protected SecurityFilterChain configure(HttpSecurity http) throws Exception {
 
         return http.csrf(csrf -> csrf.disable())
                         .authorizeHttpRequests((auth) -> {
-                            auth.requestMatchers("/","user-create").permitAll();
+                            auth.requestMatchers("/","/user-create").permitAll();
                             auth.requestMatchers("/admin/**").hasAuthority("ADMIN");
                             auth.requestMatchers("/moderator/**").hasAuthority("MODERATOR");
                             auth.requestMatchers("/user/**").hasAnyAuthority("USER");
@@ -53,7 +54,7 @@ public class SecurityConfig {
                                 e.printStackTrace();
                             }
 
-                        }).build();
+                        }).authenticationProvider(authenticationProvider()).build();
 
 //        return http.csrf().disable()
 //                .authorizeRequests()

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Task details</title>
+</head>
+<body>
+    <br>
+    <a th:text="${task.getTaskName()}"></a> <br><br>
+    <strong>Description: </strong> <br> <a th:text="${task.getTaskDetails()}"></a> <br><br>
+
+    <a href="#" onclick="window.history.back();return false;">Back to list</a>
+</body>
+</html>

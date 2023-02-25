@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit task</title>
+</head>
+<body>
+<form th:method="post" th:action="@{/admin/update-task}" th:object="${user}">
+    <div th:object="${task}" >
+    <label for="taskName">Enter task name: </label>
+    <input type="text" th:field="*{taskName}" id="taskName">
+    <div style="color:red" th:if="${#fields.hasErrors('taskName')}" th:errors="*{taskName}">Error message</div>
+    <br/>
+
+    <label for="email">Enter deadline: </label>
+    <input type="date" th:field="*{deadline}" id="email">
+    <div style="color:red" th:if="${#fields.hasErrors('deadline')}" th:errors="*{deadline}">Error message</div>
+    <br/>
+
+    <label for="taskDetails">Enter task details: </label>
+    <div style="color:red" th:if="${#fields.hasErrors('taskDetails')}" th:errors="*{taskDetails}">Error message</div>
+    <br>
+    <textarea th:field="*{taskDetails}" id="taskDetails" style="height:150px;width:250px"></textarea>
+    <br/>
+    </div>
+    <input type="submit" value="Update task"/>
+</form>
+</body>
+</html>
