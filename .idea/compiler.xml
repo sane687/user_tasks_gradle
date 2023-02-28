@@ -7,9 +7,9 @@
         <processorPath useClasspath="false">
           <entry name="C:/Gradle/gradle-8.0.1/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.26/8f8cf0372abf564913e9796623aac4c8ea44025a/lombok-1.18.26.jar" />
         </processorPath>
-        <module name="user_tasks.main" />
+        <module name="org.example.user_tasks.main" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="19" />
+    <bytecodeTargetLevel target="17" />
   </component>
 </project>

@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/org.example.user_tasks.main.iml" filepath="$PROJECT_DIR$/.idea/modules/org.example.user_tasks.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/user_tasks.main.iml" filepath="$PROJECT_DIR$/.idea/modules/user_tasks.main.iml" />
     </modules>
   </component>
